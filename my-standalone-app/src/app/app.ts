@@ -1,18 +1,21 @@
-
 import { Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
+import { NavbarComponent } from './layout/navbar/navbar.component';
+import { FooterComponent } from './layout/footer/footer.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink],
+  imports: [RouterOutlet, NavbarComponent, FooterComponent],
   template: `
-    <nav>
-      <a routerLink="/" >Home</a> |
-      <a routerLink="/about">About</a> |
-      <a routerLink="/form">Signal Form</a>
-    </nav>
-    <router-outlet></router-outlet>
-  `
+    <div class="app-shell">
+      <app-navbar />
+      <main class="app-content">
+        <router-outlet></router-outlet>
+      </main>
+      <app-footer />
+    </div>
+  `,
+  styleUrl: './app.scss'
 })
 export class App {}

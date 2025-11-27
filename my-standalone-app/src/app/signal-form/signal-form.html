@@ -1,1 +1,50 @@
-<p>signal-form works!</p>
+<section class="form-card">
+  <h2>Signal Form</h2>
+  <p>Compila il form per inviare nome ed email usando il servizio API.</p>
+
+  <form #contactForm="ngForm" (ngSubmit)="submit(contactForm)" novalidate>
+    <div class="form-field">
+      <label for="name">Nome</label>
+      <input
+        id="name"
+        name="name"
+        type="text"
+        required
+        minlength="2"
+        [ngModel]="name()"
+        (ngModelChange)="name.set($event)"
+        #nameCtrl="ngModel"
+        [class.invalid]="nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched)"
+        placeholder="Inserisci il tuo nome"
+      />
+      <div class="error" *ngIf="nameCtrl.invalid && (nameCtrl.dirty || nameCtrl.touched)">
+        <span *ngIf="nameCtrl.errors?.['required']">Il nome è obbligatorio.</span>
+        <span *ngIf="nameCtrl.errors?.['minlength']">Il nome deve contenere almeno 2 caratteri.</span>
+      </div>
+    </div>
+
+    <div class="form-field">
+      <label for="email">Email</label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        required
+        email
+        [ngModel]="email()"
+        (ngModelChange)="email.set($event)"
+        #emailCtrl="ngModel"
+        [class.invalid]="emailCtrl.invalid && (emailCtrl.dirty || emailCtrl.touched)"
+        placeholder="nome@example.com"
+      />
+      <div class="error" *ngIf="emailCtrl.invalid && (emailCtrl.dirty || emailCtrl.touched)">
+        <span *ngIf="emailCtrl.errors?.['required']">L'email è obbligatoria.</span>
+        <span *ngIf="emailCtrl.errors?.['email']">Inserisci un indirizzo email valido.</span>
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="contactForm.invalid || submitting()">
+      {{ submitting() ? 'Invio...' : 'Invia' }}
+    </button>
+  </form>
+</section>
