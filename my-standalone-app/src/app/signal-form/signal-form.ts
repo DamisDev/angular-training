@@ -1,10 +1,12 @@
 
 import { Component, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ApiService } from '../services/api';
 
 @Component({
   selector: 'app-signal-form',
   standalone: true,
+  imports: [FormsModule],
   template: `
     <h2>Signal Form</h2>
     <form (ngSubmit)="submit()">
@@ -23,8 +25,12 @@ export class SignalFormComponent {
   constructor(private api: ApiService) {}
 
   submit() {
-    this.api.sendData({ name: this.name(), email: this.email() }).subscribe(res => {
-      console.log('Risposta API:', res);
+    // Log immediately so we see the submit action even if the request fails
+    console.log('Invio dati', { name: this.name(), email: this.email() });
+
+    this.api.sendData({ name: this.name(), email: this.email() }).subscribe({
+      next: res => console.log('Risposta API:', res),
+      error: err => console.error('Errore API:', err)
     });
   }
 }
